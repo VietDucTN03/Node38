@@ -1,0 +1,88 @@
+# comment
+-- tạo Database
+CREATE DATABASE node38;
+
+# tạo Table
+# quy tắc đặt tên Table
+# Không đặt tên table trùng với keyword của MySQL: create, table...
+# tên table không chứa ký tự đặc biệt: #!@$%,..
+# tên liền nhau, tên mà có 2 tiếng trở lên cách nhau bởi dấu _: rạp phim -> rap_phim
+-- tên không có dấu
+# datatypes có 3 kiểu dữ liệu chính: số(INTERGER), chữ(String), boolean 
+-- Sau khi tắt TablePlus nhớ lưu code của một nơi nào đó, tránh mất code
+
+CREATE TABLE users (
+	full_name varchar(30),
+	email varchar(30),
+	age INTEGER,
+	gender INTEGER,
+	address VARCHAR(100)
+);
+
+-- thêm column vào table
+ALTER TABLE users  -- chỉ định table mà mình muốn sửa
+add COLUMN tinh_trang_hon_nhan VARCHAR(5)
+
+-- sửa datatype của Table
+ALTER TABLE users
+MODIFY COLUMN address VARCHAR(255);
+
+CREATE TABLE film (
+	name_film VARCHAR(20),
+	rating INTEGER,
+	describes VARCHAR(100),
+	movie_duration INTEGER
+)
+
+-- tạo Data (row)
+INSERT INTO users (full_name, email, age, gender, address) VALUES
+('Viet Duc', 'ductnv@gmail.com', 20, 1, 'Da Nang'),
+('Duy Hai', 'Haitd@gmail.com', 20, 1, 'Quang Nam'),
+('Alice Johnson', 'ohnson@example.com', 28, 2, '321 Maple Lane, Villagetown'),
+('David Williams', 'williams@example.com', 35, 1, '654 Elm Street, Cityville'),
+('Emily Davis', 'davis@example.com', 29, 2, '987 Birch Road, Townsville'),
+('Michael Brown', 'brown@example.com', 31, 1, '876 Cedar Avenue, Villagetown'),
+('Sophia Miller', 'miller@example.com', 27, 2, '543 Oak Lane, Cityville'),
+('Daniel Wilson', 'wilson@example.com', 33, 1, '234 Pine Street, Townsville'),
+('Olivia Anderson', 'anderson@example.com', 26, 2, '765 Maple Road, Villagetown'),
+('Ethan Moore', 'moore@example.com', 32, 1, '123 Cedar Lane, Cityville'),
+('Ava White', 'white@example.com', 30, 2, '456 Birch Avenue, Townsville'),
+('Liam Davis', 'davis@example.com', 29, 1, '789 Elm Road, Villagetown');
+
+SELECT full_name, email, age FROM users;
+SELECT * FROM users;
+-- *: lấy tất cả column trong Table đó
+
+SELECT full_name AS 'ho_va_ten' from users;
+-- đổi tên column (cún cơm), column name trong Table không đổi
+
+-- lấy danh sách những tên có tuổi từ 30-35 và sắp xếp giảm dần (tăng dần)
+SELECT * FROM users
+WHERE age BETWEEN 30 and 35  -- điều kiện lấy dữ liệu
+-- between ... and ...
+-- tăng dần: asc
+-- giảm dần: desc
+ORDER BY age DESC
+
+-- tìm tất cả những người có chữ D
+SELECT * FROM users
+WHERE full_name like '%D%'
+-- %D lấy chữ D ở cuối cùng
+-- D% lấy chữ D ở đầu tiên
+-- %D%
+
+-- filer nhiều điều kiện -> codition 1 and codition 2 ...
+SELECT * FROM users
+WHERE (age BETWEEN 30 and 35) and (full_name like '%D%');
+
+SELECT * FROM users;
+
+-- Update dữ liệu Database
+-- Update, Delete -> phải có WHERE
+UPDATE users 
+SET full_name = 'DucTNV'
+WHERE email = 'ductnv@gmail.com' -- Buộc phải có
+
+-- Delete dữ liệu Database
+DELETE FROM users
+WHERE email = 'Haitd@gmail.com' -- Buộc phải có
