@@ -35,19 +35,23 @@ CREATE TABLE film (
 )
 
 -- tạo Data (row)
-INSERT INTO users (full_name, email, age, gender, address) VALUES
-('Viet Duc', 'ductnv@gmail.com', 20, 1, 'Da Nang'),
-('Duy Hai', 'Haitd@gmail.com', 20, 1, 'Quang Nam'),
-('Alice Johnson', 'ohnson@example.com', 28, 2, '321 Maple Lane, Villagetown'),
-('David Williams', 'williams@example.com', 35, 1, '654 Elm Street, Cityville'),
-('Emily Davis', 'davis@example.com', 29, 2, '987 Birch Road, Townsville'),
-('Michael Brown', 'brown@example.com', 31, 1, '876 Cedar Avenue, Villagetown'),
-('Sophia Miller', 'miller@example.com', 27, 2, '543 Oak Lane, Cityville'),
-('Daniel Wilson', 'wilson@example.com', 33, 1, '234 Pine Street, Townsville'),
-('Olivia Anderson', 'anderson@example.com', 26, 2, '765 Maple Road, Villagetown'),
-('Ethan Moore', 'moore@example.com', 32, 1, '123 Cedar Lane, Cityville'),
-('Ava White', 'white@example.com', 30, 2, '456 Birch Avenue, Townsville'),
-('Liam Davis', 'davis@example.com', 29, 1, '789 Elm Road, Villagetown');
+INSERT INTO users (id, full_name, email, age, gender, address) VALUES
+(12, 'Liam Davis', 'davis@example.com', 29, 1, '789 Elm Road, Villagetown'),
+(12, 'Liam Davis', 'davis@example.com', 29, 1, '789 Elm Road, Villagetown'),
+(12, 'Liam Davis', 'davis@example.com', 29, 1, '789 Elm Road, Villagetown')
+
+(1, 'Viet Duc', 'ductnv@gmail.com', 20, 1, 'Da Nang'),
+(2, 'Duy Hai', 'Haitd@gmail.com', 20, 1, 'Quang Nam'),
+(3, 'Alice Johnson', 'ohnson@example.com', 28, 2, '321 Maple Lane, Villagetown'),
+(4, 'David Williams', 'williams@example.com', 35, 1, '654 Elm Street, Cityville'),
+(5, 'Emily Davis', 'davis@example.com', 29, 2, '987 Birch Road, Townsville'),
+(6, 'Michael Brown', 'brown@example.com', 31, 1, '876 Cedar Avenue, Villagetown'),
+(7, 'Sophia Miller', 'miller@example.com', 27, 2, '543 Oak Lane, Cityville'),
+(8, 'Daniel Wilson', 'wilson@example.com', 33, 1, '234 Pine Street, Townsville'),
+(9, 'Olivia Anderson', 'anderson@example.com', 26, 2, '765 Maple Road, Villagetown'),
+(10, 'Ethan Moore', 'moore@example.com', 32, 1, '123 Cedar Lane, Cityville'),
+(11, 'Ava White', 'white@example.com', 30, 2, '456 Birch Avenue, Townsville'),
+(12, 'Liam Davis', 'davis@example.com', 29, 1, '789 Elm Road, Villagetown');
 
 SELECT full_name, email, age FROM users;
 SELECT * FROM users;
@@ -86,3 +90,11 @@ WHERE email = 'ductnv@gmail.com' -- Buộc phải có
 -- Delete dữ liệu Database
 DELETE FROM users
 WHERE email = 'Haitd@gmail.com' -- Buộc phải có
+
+-- id - Khóa chính
+ALTER TABLE users 
+ADD COLUMN id INT NOT NULL;
+
+-- tạo Primary key user_id
+ALTER TABLE users
+ADD COLUMN user_id INT PRIMARY KEY AUTO_INCREMENT;
