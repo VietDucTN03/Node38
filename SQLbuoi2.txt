@@ -1,0 +1,189 @@
+-- Tạo Table users
+
+CREATE TABLE users (
+	user_id INT PRIMARY KEY AUTO_INCREMENT,
+	full_name VARCHAR(100),
+	email VARCHAR(255),
+	pass_word VARCHAR(255)
+);
+
+SELECT * FROM users
+
+INSERT INTO users (full_name, email, pass_word) VALUES
+('Emily Johnson', 'emily.j@example.com', 'pass789'),
+('Michael Brown', 'michael.b@example.com', 'passwordXYZ'),
+('Sophia Williams', 'sophia.w@example.com', 'secure123'),
+('Daniel Miller', 'daniel.m@example.com', 'pass432'),
+('Olivia Davis', 'olivia.d@example.com', 'mypassword'),
+('Matthew Taylor', 'matthew.t@example.com', 'letmein123'),
+('Emma Wilson', 'emma.w@example.com', 'password789'),
+('Andrew Anderson', 'andrew.a@example.com', 'ilovecoding'),
+('Ava Martinez', 'ava.m@example.com', '1234abcd'),
+('William Jackson', 'william.j@example.com', 'password567'),
+('Isabella Garcia', 'isabella.g@example.com', 'qwerty123'),
+('James Harris', 'james.h@example.com', 'iloveSQL'),
+('Lily Moore', 'lily.m@example.com', 'pass987'),
+('Ethan White', 'ethan.w@example.com', 'abcde123'),
+('Madison Lee', 'madison.l@example.com', 'pass654'),
+('Aiden Smith', 'aiden.s@example.com', 'mypassword123'),
+('Chloe Brown', 'chloe.b@example.com', 'chloepass'),
+('Jackson Clark', 'jackson.c@example.com', 'password999'),
+('Avery Turner', 'avery.t@example.com', 'turnerpass'),
+('Scarlett Adams', 'scarlett.a@example.com', '12345pass');
+
+-- tạo Table restaurant
+
+CREATE TABLE restaurant (
+	res_id INT PRIMARY KEY AUTO_INCREMENT,
+	res_name VARCHAR(100),
+	image VARCHAR(255),
+	decs VARCHAR(255)
+);
+
+SELECT * FROM restaurant
+
+-- Tạo Data cho table restaurant
+
+INSERT INTO restaurant (res_name, image, decs) VALUES
+('Cafe Bella', 'cafe_bella.jpg', 'A cozy cafe with a variety of coffee options.'),
+('Pizza Palace', 'pizza_palace.jpg', 'Home of the best pizza in town!'),
+('Sushi Haven', 'sushi_haven.jpg', 'Fresh and delicious sushi dishes.'),
+('Burger Bistro', 'burger_bistro.jpg', 'Gourmet burgers and fries.'),
+('Thai Spice', 'thai_spice.jpg', 'Authentic Thai cuisine with a touch of spice.'),
+('Mediterranean Delight', 'mediterranean_delight.jpg', 'Experience the flavors of the Mediterranean.'),
+('Taco Fiesta', 'taco_fiesta.jpg', 'Taste the excitement of Mexican street food.'),
+('Vegetarian Oasis', 'vegetarian_oasis.jpg', 'A haven for vegetarian and vegan delights.'),
+('Steakhouse Supreme', 'steakhouse_supreme.jpg', 'Premium steaks cooked to perfection.'),
+('Seafood Harbor', 'seafood_harbor.jpg', 'Fresh seafood served with a view.'),
+('Pasta Paradise', 'pasta_paradise.jpg', 'Indulge in a variety of pasta dishes.'),
+('Deli Delight', 'deli_delight.jpg', 'Classic deli sandwiches and salads.'),
+('Indian Spice', 'indian_spice.jpg', 'Savor the rich flavors of Indian cuisine.'),
+('Smoothie Spot', 'smoothie_spot.jpg', 'Refreshing smoothies and healthy snacks.'),
+('BBQ Barn', 'bbq_barn.jpg', 'BBQ favorites in a rustic setting.'),
+('Noodle Nook', 'noodle_nook.jpg', 'A diverse selection of noodle dishes.'),
+('Crepe Corner', 'crepe_corner.jpg', 'Sweet and savory crepes for every taste.'),
+('Ice Cream Emporium', 'ice_cream_emporium.jpg', 'A paradise of ice cream flavors.'),
+('Diner Daze', 'diner_daze.jpg', 'Classic American diner with comfort food.'),
+('Pho Palace', 'pho_palace.jpg', 'Delicious Vietnamese pho and more.');
+
+-- Tạo Table trung gian like_res
+CREATE TABLE like_res(
+	user_id INT,
+	FOREIGN KEY(user_id) REFERENCES users(user_id),
+	
+	res_id INT,
+	FOREIGN KEY(res_id) REFERENCES restaurant(res_id),
+	
+	date_like DATE
+);
+
+-- Tạo Data cho Table like_res
+INSERT INTO like_res (user_id, res_id, date_like) VALUES
+(1, 3, '2023-01-15'),
+(2, 1, '2023-02-20'),
+(3, 5, '2023-03-10'),
+(4, 8, '2023-04-05'),
+(5, 12, '2023-05-12'),
+(1, 15, '2023-06-18'),
+(2, 18, '2023-07-22'),
+(3, 20, '2023-08-30'),
+(4, 7, '2023-09-02'),
+(5, 10, '2023-10-08'),
+(1, 2, '2023-11-15'),
+(2, 4, '2023-12-20'),
+(3, 6, '2024-01-25'),
+(4, 9, '2024-02-28'),
+(5, 11, '2024-03-05'),
+(1, 13, '2024-04-10'),
+(2, 16, '2024-05-15'),
+(3, 19, '2024-06-20'),
+(4, 14, '2024-07-25'),
+(5, 17, '2024-08-30');
+
+-- select Data sau khi gọi
+SELECT * FROM like_res
+
+-- Câu 1: tìm 5 người like nhà hàng nhiều nhất
+-- inner join
+SELECT COUNT(users.user_id) AS 'number of likes', users.full_name FROM like_res
+INNER JOIN users ON like_res.user_id = users.user_id
+GROUP BY users.full_name
+ORDER BY COUNT(users.user_id) DESC
+limit 5
+
+-- COUNT, MAX, MIN, AVG, ... GROUP BY đi kèm
+-- left join
+SELECT * FROM users
+LEFT JOIN like_res ON like_res.user_id = users.user_id
+LEFT JOIN rate_res ON rate_res.user_id = users.user_id
+
+-- 35 Data
+-- 20 Data trong Table like_res
+-- 15 Data trong Table users
+
+-- Tạo Table rate_res
+CREATE TABLE rate_res(
+	user_id INT,
+	FOREIGN KEY(user_id) REFERENCES users(user_id),
+	
+	res_id INT,
+	FOREIGN KEY(res_id) REFERENCES restaurant(res_id),
+	
+	amount INT,
+	date_rate DATE
+);
+
+-- Tạo Data cho Table rate_res
+INSERT INTO rate_res (user_id, res_id, amount, date_rate) VALUES
+(1, 3, 4, '2023-01-15'),
+(2, 1, 5, '2023-02-20'),
+(3, 5, 3, '2023-03-10'),
+(4, 8, 4, '2023-04-05'),
+(5, 12, 5, '2023-05-12'),
+(1, 15, 4, '2023-06-18'),
+(2, 18, 3, '2023-07-22'),
+(3, 20, 5, '2023-08-30'),
+(4, 7, 4, '2023-09-02'),
+(5, 10, 5, '2023-10-08'),
+(1, 2, 3, '2023-11-15'),
+(2, 4, 4, '2023-12-20'),
+(3, 6, 5, '2024-01-25'),
+(4, 9, 3, '2024-02-28'),
+(5, 11, 4, '2024-03-05'),
+(1, 13, 5, '2024-04-10'),
+(2, 16, 3, '2024-05-15'),
+(3, 19, 4, '2024-06-20'),
+(4, 14, 5, '2024-07-25'),
+(5, 17, 3, '2024-08-30'),
+(1, 21, 4, '2024-09-05');
+
+CREATE TABLE Customers (
+    CustomerID INT PRIMARY KEY,
+    CustomerName VARCHAR(100),
+    Email VARCHAR(255)
+);
+
+CREATE TABLE Orders (
+    OrderID INT PRIMARY KEY,
+    CustomerID INT,
+    OrderDate DATE,
+    TotalAmount DECIMAL(10, 2),
+    FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID)
+);
+
+-- ORDER
+-- 1 - 1
+-- 2 - 1
+-- 3 - 1
+-- 4 - 1
+-- customers vs orders -> 1 - nhiều
+
+INSERT INTO Customers VALUES (1, 'John Doe', 'john@example.com');
+INSERT INTO Customers VALUES (2, 'Jane Smith', 'jane@example.com');
+
+INSERT INTO Orders VALUES (101, 1, '2023-01-15', 150.50);
+INSERT INTO Orders VALUES (102, 2, '2023-01-16', 200.75);
+
+SELECT Orders.OrderID, Customers.CustomerName, Orders.OrderDate, Orders.TotalAmount
+FROM Orders
+INNER JOIN Customers ON Orders.CustomerID = Customers.CustomerID;
