@@ -1,0 +1,215 @@
+-- Create Table and Data for table users
+CREATE TABLE users (
+	user_id INT PRIMARY KEY AUTO_INCREMENT,
+	full_name VARCHAR(255),
+	email VARCHAR(255),
+	password VARCHAR(255)
+);
+
+INSERT INTO users (full_name, email, password) VALUES
+('Emily Johnson', 'emily.j@example.com', 'pass789'),
+('Michael Brown', 'michael.b@example.com', 'passwordXYZ'),
+('Sophia Williams', 'sophia.w@example.com', 'secure123'),
+('Daniel Miller', 'daniel.m@example.com', 'pass432'),
+('Olivia Davis', 'olivia.d@example.com', 'mypassword'),
+('Matthew Taylor', 'matthew.t@example.com', 'letmein123'),
+('Emma Wilson', 'emma.w@example.com', 'password789'),
+('John Smith', 'john.s@example.com', 'john123'),
+('Ava Martinez', 'ava.m@example.com', 'avapass'),
+('William Johnson', 'william.j@example.com', 'willpass');
+
+SELECT * FROM users
+
+-- Create Table and Data for table restaurant
+CREATE TABLE restaurant (
+	res_id INT PRIMARY KEY AUTO_INCREMENT,
+	res_name VARCHAR(255),
+	image VARCHAR(255),
+	description VARCHAR(255)
+);
+
+INSERT INTO restaurant (res_name, image, description) VALUES
+('Cafe Bella', 'cafe_bella.jpg', 'A cozy cafe with a variety of coffee options.'),
+('Pizza Palace', 'pizza_palace.jpg', 'Home of the best pizza in town!'),
+('Sushi Haven', 'sushi_haven.jpg', 'Fresh and delicious sushi dishes.'),
+('Burger Bistro', 'burger_bistro.jpg', 'Gourmet burgers and fries.'),
+('Thai Spice', 'thai_spice.jpg', 'Authentic Thai cuisine with a touch of spice.'),
+('Mediterranean Delight', 'mediterranean_delight.jpg', 'Experience the flavors of the Mediterranean.'),
+('Taco Fiesta', 'taco_fiesta.jpg', 'Taste the excitement of Mexican street food.'),
+('Sushi Sensation', 'sushi_sensation.jpg', 'Elevate your senses with our exquisite sushi.'),
+('BBQ Junction', 'bbq_junction.jpg', 'Savor the smoky flavors of our BBQ specialties.'),
+('Pasta Paradise', 'pasta_paradise.jpg', 'Indulge in a variety of mouthwatering pasta dishes.');
+
+SELECT * FROM restaurant
+
+-- Create Table and Data for table rate_res (users - restaurant)
+CREATE TABLE rate_res (
+	user_id INT,
+	res_id INT, 
+	amount INT,
+	date_rate DATE,
+	FOREIGN KEY (user_id) REFERENCES users(user_id),
+	FOREIGN KEY (res_id) REFERENCES restaurant(res_id)
+);
+
+INSERT INTO rate_res (user_id, res_id, amount, date_rate) VALUES
+(1, 3, 4, '2023-01-15'),
+(6, 1, 5, '2023-02-20'),
+(3, 5, 3, '2023-03-10'),
+(4, 4, 4, '2023-04-05'),
+(5, 2, 5, '2023-05-12'),
+(7, 1, 4, '2023-06-18'),
+(2, 5, 3, '2023-07-22'),
+(9, 2, 5, '2023-05-12'),
+(1, 1, 4, '2023-06-18'),
+(3, 3, 5, '2023-08-30');
+
+SELECT * FROM rate_res
+
+-- Create Table and Data for table like_res (users - restaurant)
+CREATE TABLE like_res (
+	user_id INT,
+	res_id INT,
+	date_like DATE,
+	FOREIGN KEY (user_id) REFERENCES users(user_id),
+	FOREIGN KEY (res_id) REFERENCES restaurant(res_id)
+);
+
+INSERT INTO like_res (user_id, res_id, date_like) VALUES
+(1, 3, '2023-01-15'),
+(2, 1, '2023-02-20'),
+(3, 5, '2023-03-10'),
+(4, 7, '2023-04-05'),
+(5, 2, '2023-05-12'),
+(7, 5, '2023-06-18'),
+(2, 4, '2023-07-22'),
+(6, 2, '2023-05-12'),
+(1, 1, '2023-06-18'),
+(9, 4, '2023-07-22'),
+(10, 4, '2023-08-30');
+
+SELECT * FROM like_res
+
+-- Create Table and Data for table food_type
+CREATE TABLE food_type (
+	type_id INT PRIMARY KEY AUTO_INCREMENT,
+	type_name VARCHAR(255)
+);
+
+INSERT INTO food_type (type_name) VALUES
+('Fruits'),
+('Vegetables'),
+('Meat'),
+('Dairy'),
+('Grains'),
+('Seafood'),
+('Sweets'),
+('Nuts'),
+('Beverages'),
+('Spices');
+
+SELECT * FROM food_type
+
+-- Create Table and Data for table food
+CREATE TABLE food (
+	food_id INT PRIMARY KEY AUTO_INCREMENT,
+	food_name VARCHAR(255),
+	image VARCHAR(255),
+	price FLOAT,
+	description VARCHAR(255),
+	type_id INT,
+	FOREIGN KEY (type_id) REFERENCES food_type(type_id)
+)
+
+INSERT INTO food (food_name, image, price, description) VALUES
+('Apple', 'apple_image.jpg', 1.99, 'Fresh and crisp apple'),
+('Spinach', 'spinach_image.jpg', 2.49, 'Nutrient-rich green vegetable'),
+('Chicken Breast', 'chicken_image.jpg', 5.99, 'Lean protein source'),
+('Milk', 'milk_image.jpg', 2.29, 'Rich and creamy dairy product'),
+('Brown Rice', 'rice_image.jpg', 3.49, 'Whole grain goodness'),
+('Salmon', 'salmon_image.jpg', 8.99, 'Healthy omega-3 fatty acids'),
+('Chocolate Cake', 'cake_image.jpg', 4.99, 'Indulgent and delicious dessert'),
+('Banana', 'banana_image.jpg', 0.99, 'Sweet and potassium-rich fruit'),
+('Carrot', 'carrot_image.jpg', 1.49, 'Crunchy and vitamin-packed vegetable'),
+('Beef Steak', 'beef_steak_image.jpg', 9.99, 'Juicy and flavorful beef cut');
+
+SELECT * FROM food
+
+-- Create Table and Data for table order (users - food)
+CREATE TABLE orders (
+	user_id INT,
+	food_id INT,
+	amount INT,
+	code VARCHAR(255),
+	arr_sub_id VARCHAR(255),
+	FOREIGN KEY (user_id) REFERENCES users(user_id),
+	FOREIGN KEY (food_id) REFERENCES food(food_id)
+)
+
+INSERT INTO orders (user_id, food_id, amount, code, arr_sub_id) VALUES
+(1, 1, 2, 'ORDER123', 'O1'),
+(2, 3, 1, 'ORDER456', 'O2'),
+(3, 5, 3, 'ORDER789', 'O3'),
+(4, 2, 2, 'ORDER321', 'O4'),
+(4, 4, 1, 'ORDER654', 'O5'),
+(7, 6, 2, 'ORDER987', 'O6'),
+(10, 7, 1, 'ORDERABC', 'O7'),
+(5, 2, 2, 'ORDER321', 'O4'),
+(6, 4, 1, 'ORDER654', 'O5'),
+(7, 6, 2, 'ORDER987', 'O6');
+
+SELECT * FROM orders
+
+-- Create Table and Data for table sub_food
+CREATE TABLE sub_food (
+	sub_id INT PRIMARY KEY AUTO_INCREMENT,
+	sub_name VARCHAR(255),
+	sub_price FLOAT,
+	food_id INT,
+	FOREIGN KEY (food_id) REFERENCES food(food_id)
+)
+
+INSERT INTO sub_food (sub_name, sub_price, food_id) VALUES
+('Extra Cheese', 1.50, 1),
+('Avocado', 2.00, 2),
+('BBQ Sauce', 0.75, 3),
+('Whipped Cream', 1.25, 4),
+('Soy Sauce', 0.50, 5),
+('Garlic Butter', 1.00, 6),
+('Sprinkles', 0.75, 7),
+('Caramel Drizzle', 1.00, 8),
+('Feta Cheese', 1.75, 9),
+('Ranch Dressing', 0.50, 10);
+
+SELECT * FROM sub_food
+
+
+-- Tìm 5 người đã like nhà hàng nhiều nhất.
+SELECT COUNT(users.user_id) AS 'number of likes', users.full_name FROM like_res
+INNER JOIN users ON like_res.user_id = users.user_id
+GROUP BY users.full_name
+ORDER BY COUNT(users.user_id) DESC
+limit 5;
+
+-- Tìm 2 nhà hàng có lượt like nhiều nhất.
+SELECT COUNT(restaurant.res_id) AS 'number of likes by customers', restaurant.res_name FROM like_res
+INNER JOIN restaurant ON like_res.res_id = restaurant.res_id
+GROUP BY restaurant.res_name
+ORDER BY COUNT(restaurant.res_id) DESC
+LIMIT 2;
+
+-- Tìm người đã đặt hàng nhiều nhất.
+SELECT users.user_id, users.full_name, COUNT(orders.user_id) AS 'number of order' FROM orders
+INNER JOIN users ON orders.user_id = users.user_id
+GROUP BY users.user_id, users.full_name
+ORDER BY COUNT(orders.user_id) DESC
+LIMIT 1;
+
+-- Tìm người dùng không hoạt động trong hệ thống
+SELECT users.user_id, users.full_name FROM users
+LEFT JOIN orders ON users.user_id = orders.user_id
+LEFT JOIN like_res ON users.user_id = like_res.user_id
+LEFT JOIN rate_res ON users.user_id = rate_res.user_id
+WHERE orders.user_id IS NULL AND like_res.user_id IS NULL AND rate_res.user_id IS NULL;
+
+
